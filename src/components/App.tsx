@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 
-import people from './data';
-import Person from './components/Person';
+import people from '../data';
+import Person from './Person';
 
 export default function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
