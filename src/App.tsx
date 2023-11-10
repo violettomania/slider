@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiChevronRight, FiChevronLeft } from 'react-icons/fi';
 import { FaQuoteRight } from 'react-icons/fa';
 
@@ -15,27 +15,45 @@ interface Props {
 export default function App() {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
+  const handleLeftClick = () => {
+    setSelectedIndex((prevIndex) =>
+      prevIndex === 0 ? people.length - 1 : prevIndex - 1
+    );
+  };
+
+  const handleRightClick = () => {
+    setSelectedIndex((prevIndex) =>
+      prevIndex === people.length - 1 ? 0 : prevIndex + 1
+    );
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleRightClick();
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main>
       <section className='section'>
-        {people.map((person: Props, index) => {
-          if (index === selectedIndex) {
-            const { id, image, name, title, quote } = person;
-            return (
-              <article key={id} className=''>
+        {people.map(
+          ({ id, image, name, title, quote }: Props, index) =>
+            index === selectedIndex && (
+              <article key={id}>
                 <img src={image} alt={name} className='person-img' />
                 <h4>{name}</h4>
                 <p className='title'>{title}</p>
                 <p className='text'>{quote}</p>
                 <FaQuoteRight className='icon' />
               </article>
-            );
-          }
-        })}
-        <button className='prev'>
+            )
+        )}
+        <button onClick={handleLeftClick} className='prev'>
           <FiChevronLeft />
         </button>
-        <button className='next'>
+        <button onClick={handleRightClick} className='next'>
           <FiChevronRight />
         </button>
       </section>
