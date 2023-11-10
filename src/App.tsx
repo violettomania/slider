@@ -38,18 +38,21 @@ export default function App() {
   return (
     <main>
       <section className='section'>
-        {people.map(
-          ({ id, image, name, title, quote }: Props, index) =>
-            index === selectedIndex && (
-              <article key={id}>
-                <img src={image} alt={name} className='person-img' />
-                <h4>{name}</h4>
-                <p className='title'>{title}</p>
-                <p className='text'>{quote}</p>
-                <FaQuoteRight className='icon' />
-              </article>
-            )
-        )}
+        {people.map(({ id, image, name, title, quote }: Props, index) => (
+          <article
+            key={id}
+            style={{
+              transform: `translateX(${(index - selectedIndex) * 100}%)`,
+              opacity: index === selectedIndex ? 1 : 0,
+            }}
+          >
+            <img src={image} alt={name} className='person-img' />
+            <h4>{name}</h4>
+            <p className='title'>{title}</p>
+            <p className='text'>{quote}</p>
+            <FaQuoteRight className='icon' />
+          </article>
+        ))}
         <button onClick={handleLeftClick} className='prev'>
           <FiChevronLeft />
         </button>
